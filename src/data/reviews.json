@@ -1,0 +1,181 @@
+{
+  "2zgRDXFWkm8C": [
+    {
+      "user": "Sofiaa",
+      "rating": 3,
+      "text": "Bueno",
+      "bookId": "2zgRDXFWkm8C",
+      "likes": 2,
+      "dislikes": 0,
+      "id": "57fde6bc-dbf4-4c74-9a4e-a86ed635d017",
+      "createdAt": "2025-08-28T21:49:13.831Z"
+    },
+    {
+      "user": "Sofia",
+      "rating": 2,
+      "text": "hola",
+      "bookId": "2zgRDXFWkm8C",
+      "likes": 0,
+      "dislikes": 0,
+      "id": "ef9b4130-596a-432c-a246-06673ad95916",
+      "createdAt": "2025-08-27T20:06:54.505Z"
+    },
+    {
+      "user": "k",
+      "rating": 5,
+      "text": "a",
+      "bookId": "2zgRDXFWkm8C",
+      "likes": 0,
+      "dislikes": 0,
+      "id": "066a0761-d39f-437c-9ff2-0426e86a4f08",
+      "createdAt": "2025-08-25T14:08:40.548Z"
+    },
+    {
+      "user": "Sofi",
+      "rating": 1,
+      "text": "hola",
+      "bookId": "2zgRDXFWkm8C",
+      "likes": 10,
+      "dislikes": 0,
+      "id": "b4539130-4bf1-4f9d-b38c-8ddb50ed3bdb",
+      "createdAt": "2025-08-25T14:06:11.871Z"
+    },
+    {
+      "user": "Javier",
+      "rating": 5,
+      "text": "Buen libro",
+      "bookId": "2zgRDXFWkm8C",
+      "likes": 0,
+      "dislikes": 0,
+      "id": "4fb78e89-2c87-44d6-ac59-b071e11439c8",
+      "createdAt": "2025-08-25T13:58:26.152Z"
+    },
+    {
+      "user": "Ka",
+      "rating": 2,
+      "text": "hola\r\n",
+      "bookId": "2zgRDXFWkm8C",
+      "likes": 0,
+      "dislikes": 0,
+      "id": "3575ecb9-65c6-49bd-b16d-3f7425fb5e89",
+      "createdAt": "2025-08-25T13:57:45.173Z"
+    },
+    {
+      "user": "Jas",
+      "rating": 1,
+      "text": "Ke\n",
+      "bookId": "2zgRDXFWkm8C",
+      "likes": 0,
+      "dislikes": 0,
+      "id": "ae36563d-49c2-4e8b-b2d8-f3998e7948fd",
+      "createdAt": "2025-08-24T01:15:35.806Z"
+    },
+    {
+      "user": "Benja",
+      "rating": 3,
+      "text": "ta pochi ",
+      "bookId": "2zgRDXFWkm8C",
+      "likes": 0,
+      "dislikes": 0,
+      "id": "3f828de0-4d2c-47ad-ad52-ea78243641e4",
+      "createdAt": "2025-08-19T15:32:44.036Z"
+    },
+    {
+      "user": "Joni",
+      "rating": 4,
+      "text": "elegante",
+      "bookId": "2zgRDXFWkm8C",
+      "likes": 2,
+      "dislikes": 0,
+      "id": "a1981a95-650f-4bd3-9208-5bffa78ff41d",
+      "createdAt": "2025-08-19T15:31:57.598Z"
+    },
+    {
+      "user": "Jus",
+      "rating": 5,
+      "text": "bello",
+      "bookId": "2zgRDXFWkm8C",
+      "id": "0599af6e-faf2-40dd-aad3-53f10e6c67d0",
+      "likes": 4,
+      "dislikes": 0,
+      "createdAt": "2025-08-19T15:29:45.274Z"
+    },
+    {
+      "user": "Jav",
+      "rating": 5,
+      "text": "Muy buen libro che!",
+      "bookId": "2zgRDXFWkm8C",
+      "id": "b46eadf8-3c0b-4e2a-9a48-636031f52739",
+      "votes": 0,
+      "createdAt": "2025-08-18T20:53:39.991Z",
+      "likes": 15,
+      "dislikes": 18
+    }
+  ],
+  "we_FwgeUXrgC": [
+    {
+      "user": "Jav",
+      "rating": 5,
+      "text": "Buen libro \n",
+      "bookId": "we_FwgeUXrgC",
+      "likes": 14,
+      "dislikes": 15,
+      "id": "84f75e56-dfa4-438f-9e64-79d7d1fac197",
+      "createdAt": "2025-08-20T13:42:33.557Z"
+    }
+  ],
+  "abYKXvCwEToC": [
+    {
+      "user": "Sofia",
+      "rating": 1,
+      "text": "malo",
+      "bookId": "abYKXvCwEToC",
+      "likes": 0,
+      "dislikes": 0,
+      "id": "dd716462-d8d6-4639-97c7-90719ed5e88e",
+      "createdAt": "2025-08-27T20:35:30.853Z"
+    },
+    {
+      "user": "Karen",
+      "rating": 5,
+      "text": "Buen book\r\n",
+      "bookId": "abYKXvCwEToC",
+      "likes": 11,
+      "dislikes": 0,
+      "id": "b520b754-1410-498e-b767-2ccfdeacde14",
+      "createdAt": "2025-08-27T20:35:01.782Z"
+    },
+    {
+      "user": "Sofi",
+      "rating": 5,
+      "text": "hi\r\n",
+      "bookId": "abYKXvCwEToC",
+      "likes": 10,
+      "dislikes": 1,
+      "id": "c9a30738-6140-4754-9b58-a9500e794d23",
+      "createdAt": "2025-08-25T20:03:25.077Z"
+    },
+    {
+      "user": "Javier",
+      "rating": 5,
+      "text": "Muy bien",
+      "bookId": "abYKXvCwEToC",
+      "likes": 10,
+      "dislikes": 1,
+      "id": "a7c503e4-36d7-441d-90bb-d1313f144f11",
+      "createdAt": "2025-08-25T14:09:12.669Z"
+    }
+  ],
+  "DeD6nQEACAAJ": [
+    {
+      "user": "Sofi",
+      "rating": 3,
+      "text": "Hoola",
+      "bookId": "DeD6nQEACAAJ",
+      "likes": 8,
+      "dislikes": 1,
+      "id": "89085c5d-c72b-44a6-b1e6-932d42e19d2c",
+      "createdAt": "2025-08-25T14:10:53.060Z"
+    }
+  ]
+}
