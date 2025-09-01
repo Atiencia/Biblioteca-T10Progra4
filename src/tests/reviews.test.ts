@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import * as reviews from "../lib/reviews";
 import fs from "fs/promises";
+import type { MockInstance } from "vitest";
 
 vi.mock("fs/promises", () => ({
   default: {
@@ -41,13 +42,13 @@ describe("reviews lib", () => {
 
   // ---- getReviews ----
   it("getReviews devuelve lista vacía si no hay reseñas", async () => {
-    (fs.readFile as any).mockRejectedValueOnce(new Error("no file"));
+  (fs.readFile as unknown as MockInstance).mockRejectedValueOnce(new Error("no file"));
     const result = await reviews.getReviews("bookX");
     expect(result).toEqual([]);
   });
 
   it("getReviews devuelve reseñas de un libro", async () => {
-    (fs.readFile as any).mockResolvedValueOnce(JSON.stringify(mockDB));
+  (fs.readFile as unknown as MockInstance).mockResolvedValueOnce(JSON.stringify(mockDB));
     const result = await reviews.getReviews("libro1");
     expect(result).toHaveLength(2);
     expect(result[0].user).toBe("Alice");
@@ -55,8 +56,8 @@ describe("reviews lib", () => {
 
   // ---- addReview ----
   it("addReview agrega una reseña nueva", async () => {
-    (fs.readFile as any).mockResolvedValueOnce("{}"); // base vacía
-    (fs.writeFile as any).mockResolvedValueOnce();
+  (fs.readFile as unknown as MockInstance).mockResolvedValueOnce("{}"); // base vacía
+  (fs.writeFile as unknown as MockInstance).mockResolvedValueOnce(undefined);
 
     const review = await reviews.addReview("libro2", {
       user: "Bob",
@@ -73,8 +74,8 @@ describe("reviews lib", () => {
   });
 
   it("addReview lanza error si writeFile falla", async () => {
-    (fs.readFile as any).mockResolvedValueOnce("{}");
-    (fs.writeFile as any).mockRejectedValueOnce(new Error("disk full"));
+  (fs.readFile as unknown as MockInstance).mockResolvedValueOnce("{}");
+  (fs.writeFile as unknown as MockInstance).mockRejectedValueOnce(new Error("disk full"));
 
     await expect(
       reviews.addReview("libro2", {
@@ -93,38 +94,38 @@ describe("reviews lib", () => {
 
   // ---- voteReview ----
   it("voteReview aumenta likes correctamente", async () => {
-    (fs.readFile as any).mockResolvedValueOnce(JSON.stringify(mockDB));
-    (fs.writeFile as any).mockResolvedValueOnce();
+  (fs.readFile as unknown as MockInstance).mockResolvedValueOnce(JSON.stringify(mockDB));
+  (fs.writeFile as unknown as MockInstance).mockResolvedValueOnce(undefined);
 
     const updated = await reviews.voteReview("libro1", "r1", 1);
     expect(updated?.likes).toBe(3);
   });
 
   it("voteReview aumenta dislikes correctamente", async () => {
-    (fs.readFile as any).mockResolvedValueOnce(JSON.stringify(mockDB));
-    (fs.writeFile as any).mockResolvedValueOnce();
+  (fs.readFile as unknown as MockInstance).mockResolvedValueOnce(JSON.stringify(mockDB));
+  (fs.writeFile as unknown as MockInstance).mockResolvedValueOnce(undefined);
 
     const updated = await reviews.voteReview("libro1", "r1", -1);
     expect(updated?.dislikes).toBe(1);
   });
 
   it("voteReview devuelve null si no encuentra reseña", async () => {
-    (fs.readFile as any).mockResolvedValueOnce("{}");
+  (fs.readFile as unknown as MockInstance).mockResolvedValueOnce("{}");
     const result = await reviews.voteReview("bookX", "fakeId", 1);
     expect(result).toBeNull();
   });
 });
 
   it("voteReview acumula likes en llamadas sucesivas", async () => {
-    (fs.readFile as any).mockResolvedValue(JSON.stringify(mockDB));
-    (fs.writeFile as any).mockResolvedValue();
+  (fs.readFile as unknown as MockInstance).mockResolvedValue(JSON.stringify(mockDB));
+  (fs.writeFile as unknown as MockInstance).mockResolvedValue(undefined);
 
     const first = await reviews.voteReview("libro1", "r1", 1);
     expect(first?.likes).toBe(3);
 
     // simulamos segunda lectura con valor actualizado
     const newDB = { ...mockDB, libro1: [{ ...mockDB.libro1[0], likes: 3 }] };
-    (fs.readFile as any).mockResolvedValueOnce(JSON.stringify(newDB));
+  (fs.readFile as unknown as MockInstance).mockResolvedValueOnce(JSON.stringify(newDB));
 
     const second = await reviews.voteReview("libro1", "r1", 1);
     expect(second?.likes).toBe(4);

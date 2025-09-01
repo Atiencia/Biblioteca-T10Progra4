@@ -2,6 +2,7 @@ import { GET as ReviewsGET, POST as ReviewsPOST } from "../app/api/reviews/[book
 import { POST as VotePOST } from "../app/api/reviews/[bookId]/vote/route";
 import { NextRequest } from "next/server";
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import type { MockInstance } from "vitest";
 import fs from "fs/promises";
 
 
@@ -44,7 +45,7 @@ describe("reviews API routes", () => {
   });
 
   it("GET ordena reviews por likes y luego fecha desc", async () => {
-    (fs.readFile as any).mockResolvedValueOnce(JSON.stringify(mockDB));
+  (fs.readFile as unknown as MockInstance).mockResolvedValueOnce(JSON.stringify(mockDB));
 
     const res = await ReviewsGET({} as NextRequest, { params: { bookId: "libro1" } });
     const data = await res.json();
@@ -58,20 +59,20 @@ describe("reviews API routes", () => {
     const req = new NextRequest("http://localhost", {
       method: "POST",
       body: JSON.stringify({ user: "", text: "", rating: 0 }),
-    }) as any;
+    });
 
     const res = await ReviewsPOST(req, { params: { bookId: "libro1" } });
     expect(res.status).toBe(400);
   });
 
   it("POST crea una reseña válida y devuelve 201", async () => {
-  (fs.readFile as any).mockResolvedValueOnce("{}");
-  (fs.writeFile as any).mockResolvedValueOnce();
+  (fs.readFile as unknown as MockInstance).mockResolvedValueOnce("{}");
+  (fs.writeFile as unknown as MockInstance).mockResolvedValueOnce(undefined);
 
   const req = new NextRequest("http://localhost", {
     method: "POST",
     body: JSON.stringify({ user: "Juan", text: "Muy bueno", rating: 5 }),
-  }) as any;
+  });
 
   const res = await ReviewsPOST(req, { params: { bookId: "libroX" } });
   const data = await res.json();
@@ -85,7 +86,7 @@ describe("reviews API routes", () => {
     const req = new NextRequest("http://localhost", {
       method: "POST",
       body: JSON.stringify({ user: "Kati", text: "No sirve", rating: 99 }),
-    }) as any;
+    });
 
     const res = await ReviewsPOST(req, { params: { bookId: "libro1" } });
     expect(res.status).toBe(400);
@@ -96,7 +97,7 @@ describe("reviews API routes", () => {
     const req = new NextRequest("http://localhost", {
       method: "POST",
       body: JSON.stringify({ reviewId: "r1", delta: 99 }),
-    }) as any;
+    });
 
     const res = await VotePOST(req, { params: { bookId: "libro1" } });
     expect(res.status).toBe(400);
