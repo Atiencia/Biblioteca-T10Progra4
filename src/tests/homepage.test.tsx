@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import HomePage from "../app/page";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
@@ -32,7 +32,7 @@ describe("HomePage", () => {
           volumeInfo: {
             title: "Libro de prueba",
             authors: ["Autor Uno"],
-            imageLinks: { thumbnail: "img.jpg" }
+            imageLinks: { thumbnail: "https://example.com/img.jpg" }
           }
         }
       ] })
@@ -40,7 +40,7 @@ describe("HomePage", () => {
     render(await HomePage({ searchParams: { q: "libro", type: "title" } }));
     expect(await screen.findByText("Libro de prueba")).toBeInTheDocument();
     expect(screen.getByText("Autor Uno")).toBeInTheDocument();
-    expect(screen.getByRole("img")).toHaveAttribute("src", "img.jpg");
+  expect(screen.getByRole("img")).toHaveAttribute("src", expect.stringContaining("img.jpg"));
     expect(screen.getByText("Ver detalles")).toBeInTheDocument();
   });
 
@@ -85,7 +85,7 @@ describe("HomePage", () => {
           volumeInfo: {
             title: "Libro por ISBN",
             authors: ["Autor ISBN"],
-            imageLinks: { thumbnail: "isbn.jpg" }
+            imageLinks: { thumbnail: "https://example.com/isbn.jpg" }
           }
         }
       ] })
@@ -93,7 +93,7 @@ describe("HomePage", () => {
     render(await HomePage({ searchParams: { q: "9780439708180", type: "isbn" } }));
     expect(await screen.findByText("Libro por ISBN")).toBeInTheDocument();
     expect(screen.getByText("Autor ISBN")).toBeInTheDocument();
-    expect(screen.getByRole("img")).toHaveAttribute("src", "isbn.jpg");
+  expect(screen.getByRole("img")).toHaveAttribute("src", expect.stringContaining("isbn.jpg"));
     expect(screen.getByText("Ver detalles")).toBeInTheDocument();
   });
 
@@ -105,7 +105,7 @@ describe("HomePage", () => {
           volumeInfo: {
             title: "Libro por Autor",
             authors: ["Autor Buscado"],
-            imageLinks: { thumbnail: "autor.jpg" }
+            imageLinks: { thumbnail: "https://example.com/autor.jpg" }
           }
         }
       ] })
@@ -113,7 +113,7 @@ describe("HomePage", () => {
     render(await HomePage({ searchParams: { q: "rowling", type: "author" } }));
     expect(await screen.findByText("Libro por Autor")).toBeInTheDocument();
     expect(screen.getByText("Autor Buscado")).toBeInTheDocument();
-    expect(screen.getByRole("img")).toHaveAttribute("src", "autor.jpg");
+  expect(screen.getByRole("img")).toHaveAttribute("src", expect.stringContaining("autor.jpg"));
     expect(screen.getByText("Ver detalles")).toBeInTheDocument();
   });
 });

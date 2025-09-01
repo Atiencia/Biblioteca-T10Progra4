@@ -1,4 +1,16 @@
 import React from "react";
+import Image from "next/image";
+
+type BookResult = {
+  id: string;
+  volumeInfo: {
+    title: string;
+    authors?: string[];
+    imageLinks?: {
+      thumbnail?: string;
+    };
+  };
+};
 import Link from "next/link";
 
 async function searchBooks(q: string, type: "title" | "author" | "isbn") {
@@ -63,15 +75,17 @@ export default async function HomePage({
             Sin coincidencias
           </li>
         )}
-        {results.map((b: any) => {
+  {results.map((b: BookResult) => {
           const img = b.volumeInfo.imageLinks?.thumbnail;
           return (
             <li key={b.id} className="rounded-xl border bg-white p-4 shadow-sm">
               <div className="flex gap-4">
                 {img ? (
-                  <img
+                  <Image
                     src={img}
                     alt={b.volumeInfo.title}
+                    width={80}
+                    height={112}
                     className="h-28 w-20 rounded-md object-cover"
                   />
                 ) : (
