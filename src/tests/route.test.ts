@@ -4,6 +4,7 @@ import { NextRequest } from "next/server";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import type { MockInstance } from "vitest";
 import fs from "fs/promises";
+import { db } from "../lib/reviews";
 
 
 
@@ -45,15 +46,16 @@ describe("reviews API routes", () => {
   });
 
   it("GET ordena reviews por likes y luego fecha desc", async () => {
-  (fs.readFile as unknown as MockInstance).mockResolvedValueOnce(JSON.stringify(mockDB));
+    // Inicializar la base de datos en memoria
+    Object.assign(db, JSON.parse(JSON.stringify(mockDB)));
 
-  const req = new NextRequest("http://localhost/api/reviews/libro1", { method: "GET" });
-  const res = await ReviewsGET(req);
-  const data = await res.json();
+    const req = new NextRequest("http://localhost/api/reviews/libro1", { method: "GET" });
+    const res = await ReviewsGET(req);
+    const data = await res.json();
 
-  // tiene misma cantidad de likes pero fecha más reciente → va primero
-  expect(data[0].id).toBe("r2");
-  expect(data[1].id).toBe("r1");
+    // tiene misma cantidad de likes pero fecha más reciente → va primero
+    expect(data[0].id).toBe("r2");
+    expect(data[1].id).toBe("r1");
   });
 
   it("POST rechaza review con datos inválidos", async () => {

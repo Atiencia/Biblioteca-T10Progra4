@@ -3,7 +3,7 @@ import { Review } from '../types';
 
 type DB = Record<string, Review[]>; // key: bookId
 // Base de datos en memoria
-const db: DB = {};
+export const db: DB = {};
 
 export async function getReviews(bookId: string): Promise<Review[]> {
   return db[bookId] ?? [];
