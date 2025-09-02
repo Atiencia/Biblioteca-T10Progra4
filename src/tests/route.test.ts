@@ -47,21 +47,21 @@ describe("reviews API routes", () => {
   it("GET ordena reviews por likes y luego fecha desc", async () => {
   (fs.readFile as unknown as MockInstance).mockResolvedValueOnce(JSON.stringify(mockDB));
 
-    const res = await ReviewsGET({} as NextRequest, { params: { bookId: "libro1" } });
-    const data = await res.json();
+  const req = new NextRequest("http://localhost/api/reviews/libro1", { method: "GET" });
+  const res = await ReviewsGET(req);
+  const data = await res.json();
 
-    // tiene misma cantidad de likes pero fecha más reciente → va primero
-    expect(data[0].id).toBe("r2");
-    expect(data[1].id).toBe("r1");
+  // tiene misma cantidad de likes pero fecha más reciente → va primero
+  expect(data[0].id).toBe("r2");
+  expect(data[1].id).toBe("r1");
   });
 
   it("POST rechaza review con datos inválidos", async () => {
-    const req = new NextRequest("http://localhost", {
+    const req = new NextRequest("http://localhost/api/reviews/libro1", {
       method: "POST",
       body: JSON.stringify({ user: "", text: "", rating: 0 }),
     });
-
-    const res = await ReviewsPOST(req, { params: { bookId: "libro1" } });
+    const res = await ReviewsPOST(req);
     expect(res.status).toBe(400);
   });
 
@@ -69,37 +69,33 @@ describe("reviews API routes", () => {
   (fs.readFile as unknown as MockInstance).mockResolvedValueOnce("{}");
   (fs.writeFile as unknown as MockInstance).mockResolvedValueOnce(undefined);
 
-  const req = new NextRequest("http://localhost", {
+  const req = new NextRequest("http://localhost/api/reviews/libroX", {
     method: "POST",
     body: JSON.stringify({ user: "Juan", text: "Muy bueno", rating: 5 }),
   });
-
-  const res = await ReviewsPOST(req, { params: { bookId: "libroX" } });
+  const res = await ReviewsPOST(req);
   const data = await res.json();
-
   expect(res.status).toBe(201);
   expect(data.user).toBe("Juan");
   expect(data.rating).toBe(5);
   });
 
   it("POST rechaza review con rating fuera de rango", async () => {
-    const req = new NextRequest("http://localhost", {
+    const req = new NextRequest("http://localhost/api/reviews/libro1", {
       method: "POST",
       body: JSON.stringify({ user: "Kati", text: "No sirve", rating: 99 }),
     });
-
-    const res = await ReviewsPOST(req, { params: { bookId: "libro1" } });
+    const res = await ReviewsPOST(req);
     expect(res.status).toBe(400);
   });
 
 
   it("VotePOST rechaza si delta inválido", async () => {
-    const req = new NextRequest("http://localhost", {
+    const req = new NextRequest("http://localhost/api/reviews/libro1/vote", {
       method: "POST",
       body: JSON.stringify({ reviewId: "r1", delta: 99 }),
     });
-
-    const res = await VotePOST(req, { params: { bookId: "libro1" } });
+    const res = await VotePOST(req);
     expect(res.status).toBe(400);
   });
 });

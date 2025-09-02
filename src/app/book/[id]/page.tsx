@@ -1,4 +1,5 @@
 import React from "react";
+import Image from 'next/image';
 import type { GoogleBook } from '../../../types';
 import Reviews from '../[id]/reviews';
 
@@ -18,9 +19,9 @@ export default async function BookPage({ params }: { params: { id: string } }) {
   return (
     <div className="space-y-6">
       <div className="flex gap-6">
-        {cover ? (
-          <img className="h-56 w-40 rounded-md object-cover" src={cover} alt={info.title} />
-        ) : (
+          {cover ? (
+            <Image className="h-56 w-40 rounded-md object-cover" src={cover} alt={info.title} width={160} height={224} />
+          ) : (
           <div className="h-56 w-40 rounded-md bg-slate-200" />
         )}
         <div className="space-y-2">
