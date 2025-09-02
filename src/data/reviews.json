@@ -253,5 +253,17 @@
       "id": "0e5e435a-f6ac-46c2-9348-d64814228f33",
       "createdAt": "2025-09-02T01:22:45.591Z"
     }
+  ],
+  "mV1gEQAAQBAJ": [
+    {
+      "user": "Sofia",
+      "rating": 5,
+      "text": "ala",
+      "bookId": "mV1gEQAAQBAJ",
+      "likes": 2,
+      "dislikes": 1,
+      "id": "4c5f9861-5f74-47ae-aab9-bdbd40b71fb7",
+      "createdAt": "2025-09-02T02:11:36.355Z"
+    }
   ]
 }

@@ -12,15 +12,17 @@ async function getBook(id: string): Promise<GoogleBook | null> {
   return res.json();
 }
 
-// Definición explícita de props
+// Definición correcta de props para Next.js 13.4+
 interface BookPageProps {
-  params: {
-    id: string;
-  };
+  params: Promise<{ id: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-export default async function BookPage({ params }: BookPageProps) {
-  const book = await getBook(params.id);
+export default async function BookPage(props: BookPageProps) {
+  // Desestructurar la promise de params
+  const { id } = await props.params;
+  
+  const book = await getBook(id);
 
   if (!book) {
     return <div className="py-6">Libro no encontrado.</div>;
