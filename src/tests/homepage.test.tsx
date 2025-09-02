@@ -9,7 +9,7 @@ beforeEach(() => {
 
 describe("HomePage", () => {
   it("renderiza el formulario de búsqueda", async () => {
-    render(await HomePage({}));
+    render(await HomePage({ searchParams: Promise.resolve({}) }));
     expect(screen.getByPlaceholderText("Buscar")).toBeInTheDocument();
     expect(screen.getByText("Buscar")).toBeInTheDocument();
     expect(screen.getByRole("combobox")).toBeInTheDocument();
@@ -19,7 +19,7 @@ describe("HomePage", () => {
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue({
       json: async () => ({ items: [] })
     }));
-    render(await HomePage({ searchParams: { q: "no existe", type: "title" } }));
+  render(await HomePage({ searchParams: Promise.resolve({ q: "no existe", type: "title" }) }));
     expect(await screen.findByText("Sin coincidencias")).toBeInTheDocument();
   });
 
@@ -37,7 +37,7 @@ describe("HomePage", () => {
         }
       ] })
     }));
-    render(await HomePage({ searchParams: { q: "libro", type: "title" } }));
+  render(await HomePage({ searchParams: Promise.resolve({ q: "libro", type: "title" }) }));
     expect(await screen.findByText("Libro de prueba")).toBeInTheDocument();
     expect(screen.getByText("Autor Uno")).toBeInTheDocument();
   expect(screen.getByRole("img")).toHaveAttribute("src", expect.stringContaining("img.jpg"));
@@ -55,7 +55,7 @@ describe("HomePage", () => {
         }
       ] })
     }));
-    render(await HomePage({ searchParams: { q: "libro", type: "title" } }));
+  render(await HomePage({ searchParams: Promise.resolve({ q: "libro", type: "title" }) }));
     expect(await screen.findByText("Sin autor")).toBeInTheDocument();
     expect(screen.getByText("Autor desconocido")).toBeInTheDocument();
   });
@@ -72,7 +72,7 @@ describe("HomePage", () => {
         }
       ] })
     }));
-    render(await HomePage({ searchParams: { q: "libro", type: "title" } }));
+  render(await HomePage({ searchParams: Promise.resolve({ q: "libro", type: "title" }) }));
     expect(await screen.findByText("Sin imagen")).toBeInTheDocument();
     expect(screen.getByText("Sin imagen").parentElement?.parentElement?.querySelector(".bg-slate-200")).toBeInTheDocument();
   });
@@ -90,7 +90,7 @@ describe("HomePage", () => {
         }
       ] })
     }));
-    render(await HomePage({ searchParams: { q: "9780439708180", type: "isbn" } }));
+  render(await HomePage({ searchParams: Promise.resolve({ q: "9780439708180", type: "isbn" }) }));
     expect(await screen.findByText("Libro por ISBN")).toBeInTheDocument();
     expect(screen.getByText("Autor ISBN")).toBeInTheDocument();
   expect(screen.getByRole("img")).toHaveAttribute("src", expect.stringContaining("isbn.jpg"));
@@ -110,7 +110,7 @@ describe("HomePage", () => {
         }
       ] })
     }));
-    render(await HomePage({ searchParams: { q: "rowling", type: "author" } }));
+  render(await HomePage({ searchParams: Promise.resolve({ q: "rowling", type: "author" }) }));
     expect(await screen.findByText("Libro por Autor")).toBeInTheDocument();
     expect(screen.getByText("Autor Buscado")).toBeInTheDocument();
   expect(screen.getByRole("img")).toHaveAttribute("src", expect.stringContaining("autor.jpg"));

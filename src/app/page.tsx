@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 type BookResult = {
   id: string;
@@ -11,7 +12,6 @@ type BookResult = {
     };
   };
 };
-import Link from "next/link";
 
 async function searchBooks(q: string, type: "title" | "author" | "isbn") {
   if (!q) return [];
@@ -30,10 +30,11 @@ async function searchBooks(q: string, type: "title" | "author" | "isbn") {
 export default async function HomePage({
   searchParams,
 }: {
-  searchParams?: { q?: string; type?: "title" | "author" | "isbn" };
+  searchParams: Promise<{ q?: string; type?: "title" | "author" | "isbn" }>;
 }) {
-  const q = searchParams?.q ?? "";
-  const type = searchParams?.type ?? "title";
+  // Desestructurar la Promise de searchParams
+  const { q = "", type = "title" } = await searchParams;
+  
   const results = q ? await searchBooks(q, type) : [];
 
   return (
@@ -42,14 +43,7 @@ export default async function HomePage({
         <input
           name="q"
           defaultValue={q}
-          // placeholder={
-          //   type === "title"
-          //     ? "Buscar por título (ej: harry potter)"
-          //     : type === "author"
-          //     ? "Buscar por autor (ej: rowling)"
-          //     : "Buscar por ISBN (ej: 9780439708180)"
-          // }
-          placeholder="Buscar "
+          placeholder="Buscar"
           className="flex-1 rounded-lg border px-3 py-2"
         />
         <select
@@ -75,7 +69,7 @@ export default async function HomePage({
             Sin coincidencias
           </li>
         )}
-  {results.map((b: BookResult) => {
+        {results.map((b: BookResult) => {
           const img = b.volumeInfo.imageLinks?.thumbnail;
           return (
             <li key={b.id} className="rounded-xl border bg-white p-4 shadow-sm">
