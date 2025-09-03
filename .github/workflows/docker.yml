@@ -27,6 +27,9 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ghcr.io/${{ github.repository }}
+        
+      - name: Show repo files
+        run: ls -R
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
