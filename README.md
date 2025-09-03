@@ -7,8 +7,6 @@ URL pública: https://biblioteca-t10-progra4.vercel.app
 
 Cloná el proyecto y ejecutalo localmente:
 
-Clona el proyecto y ejecútalo localmente:
-
 ```bash
 git clone https://github.com/Atiencia/Biblioteca-T10Progra4.git
 cd biblioteca-t10-progra4
@@ -62,7 +60,7 @@ docker run -p 3000:3000 ghcr.io/atiencia/biblioteca-t10-progra4:latest
 
 ## Pruebas
 
-Worflows
+WorKflows
 ![alt text](image.png)
 
 1.  
