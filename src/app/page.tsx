@@ -78,9 +78,9 @@ export default async function HomePage({
                   <Image
                     src={img}
                     alt={b.volumeInfo.title}
-                    width={80}
+                    width={100}
                     height={112}
-                    className="h-28 w-20 rounded-md object-cover"
+                    className="h-30-25rounded-md object-cover"
                   />
                 ) : (
                   <div className="h-28 w-20 rounded-md bg-slate-200" />
@@ -92,7 +92,7 @@ export default async function HomePage({
                   </p>
                   <Link
                     href={`/book/${b.id}`}
-                    className="mt-3 inline-block rounded-md bg-slate-900 px-3 py-1.5 text-white hover:bg-black"
+                    className="mt-3 inline-block rounded-md bg-blue-600 px-3 py-1.5 text-white hover:bg-blue-800"
                   >
                     Ver detalles
                   </Link>

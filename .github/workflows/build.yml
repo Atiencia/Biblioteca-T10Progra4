@@ -2,24 +2,30 @@ name: Build Check
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [ main ] # Solo ejecuta el workflow en PRs hacia main
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest #utiliza un runner de Ubuntu
 
     steps:
+
+      #paso 1: descarga el codigo fuente del repositorio 
       - name: Checkout repository
         uses: actions/checkout@v4
 
+
+      # paso 2: configura Node.js y habilita el almacenamiento en caché
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
 
+      # paso 3: instala las dependencias
       - name: Install dependencies
         run: npm install
 
+      # paso 4: construye el proyecto
       - name: Build project
         run: npm run build

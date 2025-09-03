@@ -21,5 +21,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      # ejecuta los test automaticos del proyecto 
       - name: Run tests
         run: npm test
