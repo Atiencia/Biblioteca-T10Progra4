@@ -39,55 +39,6 @@ describe('auth functions', () => {
     expect(auth.verifyToken('invalid.token')).toBeNull();
   });
 
-//   it('getUserFromRequestCookie retorna usuario si token válido', async () => {
-//     // Reset modules y mocks específicos
-//     vi.resetModules();
-
-//     // Mock de auth functions
-//     vi.doMock('../lib/auth', () => ({
-//       getUserFromRequestCookie: vi.fn().mockResolvedValue(mockUser),
-//     }));
-
-//     // Mock de User.findById
-//     vi.doMock('../lib/models/user', () => ({ 
-//       User: { 
-//         findById: vi.fn().mockResolvedValue(mockUser) 
-//       } 
-//     }));
-
-//     // Mock de mongo
-//     vi.doMock('../lib/mongo', () => ({ 
-//       connectToDatabase: vi.fn().mockResolvedValue({}) 
-//     }));
-
-//     // Mock de cookies como Promise
-//     vi.doMock('next/headers', () => ({
-//       cookies: () => Promise.resolve({ get: () => ({ value: 'token' }) }),
-//     }));
-
-//     // Importar después de configurar todos los mocks
-//   const auth = await import('../lib/auth');
-//   vi.spyOn(auth, 'verifyToken').mockReturnValue({ userId: '1' });
-//   const user = await auth.getUserFromRequestCookie();
-//   expect(user).toEqual(mockUser);
-//   });
-
-//   it('getUserFromRequestCookie retorna null si token inválido', async () => {
-//     vi.resetModules();
-    
-//     vi.doMock('../lib/auth', async (importOriginal) => {
-//       const mod = await importOriginal();
-//       return {
-//         ...(mod as object),
-//         verifyToken: vi.fn().mockReturnValue(null),
-//       };
-//     });
-
-//     const auth = await import('../lib/auth');
-//     const user = await auth.getUserFromRequestCookie();
-//     expect(user).toBeNull();
-//   });
-// });
 
 // --- MIDDLEWARE ---
 describe('middleware de autorización', () => {

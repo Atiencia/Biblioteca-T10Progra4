@@ -18,7 +18,7 @@ const postSchema = z.object({
 });
 
 export async function POST(req: Request, { params }: { params: { bookId: string } }) {
-  const user = await getUserFromRequestCookie() as { _id: any; name?: string; email: string } | null;
+  const user = await getUserFromRequestCookie() as { _id: string; name?: string; email: string } | null;
   if (!user) return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
 
   const body = await req.json();
@@ -29,7 +29,8 @@ export async function POST(req: Request, { params }: { params: { bookId: string 
     userId: String(user._id),
     userName: user.name || user.email,
     rating: parsed.data.rating,
-    text: parsed.data.text
+    text: parsed.data.text,
+    bookTitle: ''
   });
 
   return NextResponse.json(review, { status: 201 });

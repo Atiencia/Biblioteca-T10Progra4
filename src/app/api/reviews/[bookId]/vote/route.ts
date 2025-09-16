@@ -6,8 +6,8 @@ import { z } from 'zod';
 
 const schema = z.object({ reviewId: z.string(), delta: z.number().refine(n => n === 1 || n === -1) });
 
-export async function POST(req: Request, { params }: { params: { bookId: string } }) {
-  const user = await getUserFromRequestCookie() as { _id: any } | null;
+export async function POST(req: Request, p0: { params: { bookId: string; }; }) {
+  const user = await getUserFromRequestCookie() as { _id: string } | null;
   if (!user) return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
   const body = await req.json();
   const parsed = schema.safeParse(body);

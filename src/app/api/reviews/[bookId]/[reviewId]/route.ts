@@ -5,7 +5,7 @@ import { editReview, deleteReview } from '@/lib/reviews';
 import { z } from 'zod';
 
 export async function PATCH(req: Request, { params }: { params: { reviewId: string } }) {
-  const user = await getUserFromRequestCookie() as { _id: any } | null;
+  const user = await getUserFromRequestCookie() as { _id: string } | null;
   if (!user) return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
 
   const body = await req.json();
@@ -17,22 +17,26 @@ export async function PATCH(req: Request, { params }: { params: { reviewId: stri
     const updated = await editReview(params.reviewId, String(user._id), parsed.data);
     if (!updated) return NextResponse.json({ error: 'No encontrado' }, { status: 404 });
     return NextResponse.json(updated);
-  } catch (e) {
-    if ((e as any).message === 'forbidden') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  } catch (e: unknown) {
+    if (typeof e === 'object' && e !== null && 'message' in e && (e as { message?: string }).message === 'forbidden') {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     throw e;
   }
 }
 
 export async function DELETE(req: Request, { params }: { params: { reviewId: string } }) {
-  const user = await getUserFromRequestCookie() as { _id: any } | null;
+  const user = await getUserFromRequestCookie() as { _id: string } | null;
   if (!user) return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
 
   try {
     const ok = await deleteReview(params.reviewId, String(user._id));
     if (!ok) return NextResponse.json({ error: 'No encontrado' }, { status: 404 });
     return NextResponse.json({ ok: true });
-  } catch (e) {
-    if ((e as any).message === 'forbidden') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  } catch (e: unknown) {
+    if (typeof e === 'object' && e !== null && 'message' in e && (e as { message?: string }).message === 'forbidden') {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     throw e;
   }
 }
