@@ -14,11 +14,7 @@ async function getBook(id: string): Promise<GoogleBook | null> {
   return res.json();
 }
 
-interface BookPageProps {
-  params: { id: string };
-}
-
-export default async function BookPage({ params }: BookPageProps) {
+export default async function Page({ params }: { params: { id: string } }) {
   const { id } = params;
   const book = await getBook(id);
   if (!book) {

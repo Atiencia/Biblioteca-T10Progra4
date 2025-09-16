@@ -80,7 +80,7 @@ describe("reviews API routes", () => {
       }),
     });
     const req = new NextRequest("http://localhost/api/reviews/libro1", { method: "GET" });
-    const res = await ReviewsGET(req, { params: { bookId: "libro1" } });
+    const res = await ReviewsGET(req);
     const data = await res.json();
     // tiene misma cantidad de likes pero fecha más reciente → va primero
     expect(data[0]._id).toBe("r2");
@@ -93,7 +93,7 @@ describe("reviews API routes", () => {
       body: JSON.stringify({ user: "", text: "", rating: 0 }),
       headers: { "Content-Type": "application/json" },
     });
-    const res = await ReviewsPOST(req, { params: { bookId: "libro1" } });
+    const res = await ReviewsPOST(req);
     expect(res.status).toBe(400);
   });
 
@@ -125,7 +125,7 @@ describe("reviews API routes", () => {
       body: JSON.stringify({ user: "Juan", text: "Muy bueno", rating: 5 }),
       headers: { "Content-Type": "application/json" },
     });
-    const res = await ReviewsPOST(req, { params: { bookId: "libroX" } });
+    const res = await ReviewsPOST(req);
     const data = await res.json();
     expect(res.status).toBe(201);
     expect(data.user).toBe("Juan");
@@ -138,7 +138,7 @@ describe("reviews API routes", () => {
       body: JSON.stringify({ user: "Kati", text: "No sirve", rating: 99 }),
       headers: { "Content-Type": "application/json" },
     });
-    const res = await ReviewsPOST(req, { params: { bookId: "libro1" } });
+    const res = await ReviewsPOST(req);
     expect(res.status).toBe(400);
   });
 
