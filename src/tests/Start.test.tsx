@@ -1,3 +1,4 @@
+vi.mock("../lib/mongo", () => ({ connectToDatabase: vi.fn() }));
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { it, expect, vi } from "vitest";

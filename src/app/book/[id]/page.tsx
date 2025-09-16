@@ -1,9 +1,11 @@
 import React from "react";
 import Image from "next/image";
+import Reviews from "./reviews";
+import { isFavorite } from "@/lib/favorites";
+import { getUserFromRequestCookie } from "@/lib/auth";
+import FavoriteButton from "./FavoriteButton";
 import type { GoogleBook } from "../../../types";
-import Reviews from "../[id]/reviews";
 
-// Función para obtener el libro
 async function getBook(id: string): Promise<GoogleBook | null> {
   const res = await fetch(`https://www.googleapis.com/books/v1/volumes/${id}`, {
     cache: "no-store",
@@ -12,24 +14,31 @@ async function getBook(id: string): Promise<GoogleBook | null> {
   return res.json();
 }
 
-// Definición correcta de props para Next.js 13.4+
 interface BookPageProps {
-  params: Promise<{ id: string }>;
-  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+  params: { id: string };
 }
 
-export default async function BookPage(props: BookPageProps) {
-  // Desestructurar la promise de params
-  const { id } = await props.params;
-  
+export default async function BookPage({ params }: BookPageProps) {
+  const { id } = params;
   const book = await getBook(id);
-
   if (!book) {
     return <div className="py-6">Libro no encontrado.</div>;
   }
-
   const info = book.volumeInfo;
   const cover = info.imageLinks?.thumbnail;
+
+  // Favoritos
+  const user = await getUserFromRequestCookie();
+  let userId = '';
+  let favorite = false;
+  if (user) {
+    userId = Array.isArray(user) ? String(user[0]?._id) : String(user._id);
+    if (userId && userId !== 'undefined') {
+      favorite = await isFavorite(userId, book.id);
+    }
+  }
+
+
 
   return (
     <div className="space-y-6">
@@ -62,11 +71,13 @@ export default async function BookPage(props: BookPageProps) {
               <p>Sin descripción.</p>
             )}
           </div>
+          {/* Botón favoritos */}
+          {user && (
+            <FavoriteButton bookId={book.id} initialFavorite={favorite} bookTitle={info.title} />
+          )}
         </div>
       </div>
-
-      {/* Reseñas */}
-      <Reviews bookId={book.id} />
+  <Reviews bookId={book.id} bookTitle={info.title} />
     </div>
   );
 }

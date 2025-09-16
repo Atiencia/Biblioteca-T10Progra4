@@ -14,12 +14,14 @@ export type GoogleBook = {
 };
 
 export type Review = {
-  id: string;
+  _id?: string;
+  id?: string;
   bookId: string;
-  user: string;
-  rating: number;      
+  userId?: string;
+  userName: string;
+  rating: number;
   text: string;
   likes: number;
   dislikes: number;
-  createdAt: string;   
+  createdAt: string;
 };
