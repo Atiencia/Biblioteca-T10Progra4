@@ -6,6 +6,7 @@ import { getUserFromRequestCookie } from "@/lib/auth";
 import FavoriteButton from "./FavoriteButton";
 import type { GoogleBook } from "../../../types";
 
+
 async function getBook(id: string): Promise<GoogleBook | null> {
   const res = await fetch(`https://www.googleapis.com/books/v1/volumes/${id}`, {
     cache: "no-store",
@@ -14,13 +15,8 @@ async function getBook(id: string): Promise<GoogleBook | null> {
   return res.json();
 }
 
-// 👇 así en lugar de definir una interfaz externa
-export default async function Page({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const { id } = params;
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const book = await getBook(id);
 
   if (!book) {
@@ -60,29 +56,27 @@ export default async function Page({
           <p className="text-slate-700">
             {info.authors?.join(", ") ?? "Autor desconocido"}
           </p>
-          <p className="text-sm text-slate-600">
-            {info.publisher ? `${info.publisher} • ` : ""}
-            {info.publishedDate ?? ""}
-            {info.pageCount ? ` • ${info.pageCount} páginas` : ""}
-          </p>
-          <div className="prose max-w-none">
-            {info.description ? (
-              <div dangerouslySetInnerHTML={{ __html: info.description }} />
-            ) : (
-              <p>Sin descripción.</p>
-            )}
+                <p className="text-sm text-slate-600">
+                  {info.publisher ? `${info.publisher} • ` : ""}
+                  {info.publishedDate ?? ""}
+                  {info.pageCount ? ` • ${info.pageCount} páginas` : ""}
+                </p>
+                <div className="prose max-w-none">
+                  {info.description ? (
+                    <div dangerouslySetInnerHTML={{ __html: info.description }} />
+                  ) : (
+                    <p>Sin descripción.</p>
+                  )}
+                </div>
+                {user && (
+                  <FavoriteButton
+                    bookId={book.id}
+                    initialFavorite={favorite}
+                    bookTitle={info.title}
+                  />
+                )}
+              </div>
+            </div>
+            <Reviews bookId={book.id} bookTitle={info.title} />
           </div>
-          {/* Botón favoritos */}
-          {user && (
-            <FavoriteButton
-              bookId={book.id}
-              initialFavorite={favorite}
-              bookTitle={info.title}
-            />
-          )}
-        </div>
-      </div>
-      <Reviews bookId={book.id} bookTitle={info.title} />
-    </div>
-  );
-}
+  )}
