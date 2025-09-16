@@ -15,7 +15,7 @@ async function getBook(id: string): Promise<GoogleBook | null> {
 }
 
 // 👇 así en lugar de definir una interfaz externa
-export default async function BookPage({
+export default async function Page({
   params,
 }: {
   params: { id: string };
