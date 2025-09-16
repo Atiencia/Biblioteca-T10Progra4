@@ -4,8 +4,11 @@ import { getReviews, addReview } from '@/lib/reviews';
 import { getUserFromRequestCookie } from '@/lib/auth';
 import { z } from 'zod';
 
-export async function GET(req: Request, { params }: { params: { bookId: string } }) {
-  const bookId = params.bookId;
+export async function GET(req: Request) {
+  // Extraer bookId de la URL
+  const url = new URL(req.url);
+  const paths = url.pathname.split('/');
+  const bookId = paths[paths.length - 1];
   const items = await getReviews(bookId);
   // orden ya aplicado en getReviews pero aseguramos
   items.sort((a, b) => (b.likes - a.likes) || (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
@@ -17,7 +20,7 @@ const postSchema = z.object({
   text: z.string().min(1),
 });
 
-export async function POST(req: Request, { params }: { params: { bookId: string } }) {
+export async function POST(req: Request) {
   const user = await getUserFromRequestCookie() as { _id: string; name?: string; email: string } | null;
   if (!user) return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
 
@@ -25,7 +28,12 @@ export async function POST(req: Request, { params }: { params: { bookId: string 
   const parsed = postSchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: 'Datos inválidos' }, { status: 400 });
 
-  const review = await addReview(params.bookId, {
+  // Extraer bookId de la URL
+  const url = new URL(req.url);
+  const paths = url.pathname.split('/');
+  const bookId = paths[paths.length - 1];
+
+  const review = await addReview(bookId, {
     userId: String(user._id),
     userName: user.name || user.email,
     rating: parsed.data.rating,
