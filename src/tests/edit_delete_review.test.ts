@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, Mock } from 'vitest';
 import * as reviews from '../lib/reviews';
 vi.mock('../lib/models/review', () => ({
   Review: {
@@ -18,13 +18,13 @@ vi.mock('../lib/models/vote', () => ({
 vi.mock('../lib/mongo', () => ({ connectToDatabase: vi.fn() }));
 
 describe('editReview y deleteReview', () => {
-  let Review: any;
-  let Vote: any;
+  let Review: Record<string, Mock>;
+  let Vote: Record<string, Mock>;
   beforeEach(async () => {
     vi.clearAllMocks();
     // Importar los mocks después de que Vitest los haya inicializado
-    Review = (await import('../lib/models/review')).Review;
-    Vote = (await import('../lib/models/vote')).Vote;
+  Review = (await import('../lib/models/review')).Review as unknown as Record<string, Mock>;
+  Vote = (await import('../lib/models/vote')).Vote as unknown as Record<string, Mock>;
   });
 
   it('editReview edita texto y rating', async () => {

@@ -64,11 +64,12 @@ const mockReviews = [
 
 
 
+import { Mock } from "vitest";
 describe("reviews API routes", () => {
-  let Review: any;
+  let Review: Record<string, Mock>;
   beforeEach(async () => {
     vi.clearAllMocks();
-    Review = (await import("../lib/models/review")).Review as any;
+    Review = (await import("../lib/models/review")).Review as unknown as Record<string, Mock>;
   });
 
   it("GET ordena reviews por likes y luego fecha desc", async () => {

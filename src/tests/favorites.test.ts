@@ -12,12 +12,13 @@ vi.mock('../lib/models/favorite', () => ({
 }));
 vi.mock('../lib/mongo', () => ({ connectToDatabase: vi.fn() }));
 
+import { Mock } from 'vitest';
 describe('favorites lib', () => {
-  let Favorite: any;
+  let Favorite: Record<string, Mock>;
   const validUserId = '507f1f77bcf86cd799439011'; // 24-char hex string
   beforeEach(async () => {
     vi.clearAllMocks();
-    Favorite = (await import('../lib/models/favorite')).Favorite;
+    Favorite = (await import('../lib/models/favorite')).Favorite as unknown as Record<string, Mock>;
   });
 
   it('addFavorite agrega o actualiza favorito', async () => {
