@@ -25,12 +25,17 @@ export async function PATCH(req: Request, { params }: { params: { reviewId: stri
   }
 }
 
-export async function DELETE(req: Request, { params }: { params: { reviewId: string } }) {
+export async function DELETE(req: Request) {
   const user = await getUserFromRequestCookie() as { _id: string } | null;
   if (!user) return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
 
+  // Extraer reviewId de la URL
+  const url = new URL(req.url);
+  const paths = url.pathname.split('/');
+  const reviewId = paths[paths.length - 1];
+
   try {
-    const ok = await deleteReview(params.reviewId, String(user._id));
+    const ok = await deleteReview(reviewId, String(user._id));
     if (!ok) return NextResponse.json({ error: 'No encontrado' }, { status: 404 });
     return NextResponse.json({ ok: true });
   } catch (e: unknown) {

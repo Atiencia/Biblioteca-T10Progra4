@@ -64,7 +64,7 @@ const mockReviews = [
 
 
 
-import { Mock } from "vitest";
+ import { Mock } from "vitest";
 describe("reviews API routes", () => {
   let Review: Record<string, Mock>;
   beforeEach(async () => {
