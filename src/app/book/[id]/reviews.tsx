@@ -48,7 +48,7 @@ export async function handleCreateReview(formData: FormData) {
   if (!user) return;
   const bookId = String(formData.get('bookId'));
   const bookTitle = String(formData.get('bookTitle'));
-  const userName = (user as any).name || (user as any).email || '';
+  const userName = (typeof user === 'object' && user !== null && 'name' in user && user.name) ? user.name : (typeof user === 'object' && user !== null && 'email' in user && user.email ? user.email : '');
   const rating = Number(formData.get('rating'));
   const text = String(formData.get('text'));
   if (!text.trim()) return;
@@ -77,16 +77,16 @@ export async function handleVoteReview(formData: FormData) {
 
 export default async function Reviews({ bookId, bookTitle }: { bookId: string, bookTitle: string }) {
   const rawItems = await getReviews(bookId);
-  const items: Review[] = rawItems.map((r: any) => ({
-    id: r._id?.toString?.() ?? r.id ?? '',
-    bookId: r.bookId ?? '',
-    userId: r.userId?.toString?.() ?? '',
-    userName: r.userName ?? '',
-    rating: r.rating ?? 0,
-    text: r.text ?? '',
-    createdAt: r.createdAt ?? '',
-    likes: r.likes ?? 0,
-    dislikes: r.dislikes ?? 0,
+  const items: Review[] = rawItems.map((r: Record<string, unknown>) => ({
+    id: typeof r._id === 'object' && r._id !== null && 'toString' in r._id ? (r._id as { toString: () => string }).toString() : (r.id as string ?? ''),
+    bookId: (r.bookId as string) ?? '',
+    userId: typeof r.userId === 'object' && r.userId !== null && 'toString' in r.userId ? (r.userId as { toString: () => string }).toString() : (r.userId as string ?? ''),
+    userName: (r.userName as string) ?? '',
+    rating: (r.rating as number) ?? 0,
+    text: (r.text as string) ?? '',
+    createdAt: (r.createdAt as string) ?? '',
+    likes: (r.likes as number) ?? 0,
+    dislikes: (r.dislikes as number) ?? 0,
   }));
 
   const user = await getUserFromRequestCookie();

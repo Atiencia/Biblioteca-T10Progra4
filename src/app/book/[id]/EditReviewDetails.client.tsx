@@ -1,9 +1,10 @@
 "use client";
 import React, { useRef } from "react";
 
+import type { Review } from '@/types';
 export default function EditReviewDetails({ handleEditReview, review, bookId }: {
   handleEditReview: (formData: FormData) => void,
-  review: any,
+  review: Review,
   bookId: string
 }) {
   const detailsRef = useRef<HTMLDetailsElement>(null);

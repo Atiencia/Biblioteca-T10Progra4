@@ -23,7 +23,12 @@ export default function RegisterPage() {
     if (!res.ok) {
       // Si el error es un array de issues de Zod, extrae los mensajes
       if (Array.isArray(data.error)) {
-        setError(data.error.map((issue: any) => issue.message));
+        setError(data.error.map((issue: unknown) => {
+          if (typeof issue === 'object' && issue !== null && 'message' in issue) {
+            return (issue as { message: string }).message;
+          }
+          return '';
+        }));
       } else {
         setError(data.error || "Error en el registro");
       }

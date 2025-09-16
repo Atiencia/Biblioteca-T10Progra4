@@ -147,7 +147,7 @@ describe("reviews API routes", () => {
       body: JSON.stringify({ reviewId: "r1", delta: 99 }),
       headers: { "Content-Type": "application/json" },
     });
-    const res = await VotePOST(req, { params: { bookId: "libro1" } });
+    const res = await VotePOST(req);
     expect(res.status).toBe(400);
   });
 });
