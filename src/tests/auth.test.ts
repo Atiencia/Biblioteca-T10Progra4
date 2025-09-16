@@ -35,7 +35,8 @@ describe('auth functions', () => {
     const auth = await import('../lib/auth');
     const token = auth.signToken({ userId: 'abc' });
     const payload = auth.verifyToken(token);
-    expect(payload.userId).toBe('abc');
+    expect(payload).not.toBeNull();
+    expect(payload && payload.userId).toBe('abc');
     expect(auth.verifyToken('invalid.token')).toBeNull();
   });
 

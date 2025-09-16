@@ -6,7 +6,7 @@ vi.mock('next/headers', () => ({
   }),
 }));
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, Mock } from 'vitest';
 import { POST as RegisterRoute } from '../app/api/auth/register/route';
 import { POST as LoginRoute } from '../app/api/auth/login/route';
 import { POST as LogoutRoute } from '../app/api/auth/logout/route';
@@ -58,10 +58,10 @@ describe('auth routes', () => {
 
   it('register crea usuario si no existe', async () => {
     // Mock: usuario no existe
-    (User.findOne as any).mockResolvedValueOnce(null);
+      (User.findOne as unknown as Mock).mockResolvedValueOnce(null);
     // Mock: creación exitosa (incluye passwordHash)
 
-    (User.create as any).mockResolvedValueOnce({ 
+      (User.create as unknown as Mock).mockResolvedValueOnce({ 
       _id: 'u1', 
       email: 'test@mail.com',
       name: 'Test',
@@ -78,13 +78,13 @@ describe('auth routes', () => {
       headers: { 'Content-Type': 'application/json' },
     });
 
-    const res = await RegisterRoute(req as any);
+  const res = await RegisterRoute(req as Request);
     expect(res.status).toBe(201);
   });
 
   it('register rechaza si usuario ya existe', async () => {
     // Mock: usuario ya existe
-    (User.findOne as any).mockResolvedValueOnce({ 
+      (User.findOne as unknown as Mock).mockResolvedValueOnce({
       _id: 'u1', 
       email: 'test@mail.com' 
     });
@@ -99,13 +99,13 @@ describe('auth routes', () => {
       headers: { 'Content-Type': 'application/json' },
     });
 
-    const res = await RegisterRoute(req as any);
+  const res = await RegisterRoute(req as Request);
     expect(res.status).toBe(409);
   });
 
   it('login permite acceso con credenciales válidas', async () => {
     // Mock: usuario encontrado con contraseña hasheada
-    (User.findOne as any).mockResolvedValueOnce({
+      (User.findOne as unknown as Mock).mockResolvedValueOnce({
       _id: 'u1',
       email: 'test@mail.com',
       passwordHash: 'hashed_password',
@@ -121,13 +121,13 @@ describe('auth routes', () => {
       headers: { 'Content-Type': 'application/json' },
     });
 
-    const res = await LoginRoute(req as any);
+  const res = await LoginRoute(req as Request);
     expect(res.status).toBe(200);
   });
 
   it('login rechaza credenciales inválidas - usuario no existe', async () => {
     // Mock: usuario no encontrado
-    (User.findOne as any).mockResolvedValueOnce(null);
+      (User.findOne as unknown as Mock).mockResolvedValueOnce(null);
 
     const req = new Request('http://localhost/api/auth/login', {
       method: 'POST',
@@ -138,13 +138,13 @@ describe('auth routes', () => {
       headers: { 'Content-Type': 'application/json' },
     });
 
-    const res = await LoginRoute(req as any);
+  const res = await LoginRoute(req as Request);
     expect(res.status).toBe(401);
   });
 
   it('login rechaza credenciales inválidas - contraseña incorrecta', async () => {
     // Mock: usuario encontrado
-    (User.findOne as any).mockResolvedValueOnce({
+      (User.findOne as unknown as Mock).mockResolvedValueOnce({
       _id: 'u1',
       email: 'test@mail.com',
       passwordHash: 'hashed_password_1234',
@@ -160,7 +160,7 @@ describe('auth routes', () => {
       headers: { 'Content-Type': 'application/json' },
     });
 
-    const res = await LoginRoute(req as any);
+  const res = await LoginRoute(req as Request);
     expect(res.status).toBe(401);
   });
 
@@ -168,7 +168,7 @@ describe('auth routes', () => {
     const req = new Request('http://localhost/api/auth/logout', { 
       method: 'POST' 
     });
-    const res = await LogoutRoute(req as any);
+  const res = await LogoutRoute(req as Request);
     expect([200, 204, 303]).toContain(res.status);
   });
 });

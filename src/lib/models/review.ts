@@ -1,4 +1,4 @@
-import mongoose, { Schema, model, models, Types } from 'mongoose';
+import mongoose, { Schema, model, models } from 'mongoose';
 
 export interface IReview {
   bookId: string;
