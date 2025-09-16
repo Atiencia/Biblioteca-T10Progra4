@@ -108,52 +108,52 @@ describe("reviews lib", () => {
   });
 
   it("voteReview aumenta likes correctamente", async () => {
-    (Vote.findOne as any).mockResolvedValueOnce(null); // Simula que no hay voto previo
-    (Review.findByIdAndUpdate as any).mockResolvedValueOnce({});
-    (Review.findById as any).mockReturnValueOnce({
+    (Vote.findOne as unknown as { mockResolvedValueOnce: Function }).mockResolvedValueOnce(null); // Simula que no hay voto previo
+    (Review.findByIdAndUpdate as unknown as { mockResolvedValueOnce: Function }).mockResolvedValueOnce({});
+    (Review.findById as unknown as { mockReturnValueOnce: Function }).mockReturnValueOnce({
       lean: vi.fn().mockResolvedValueOnce({ ...mockReviews[0], likes: 3 })
     });
     const updatedReview = { ...mockReviews[0], likes: 3 };
-    (Review.findOneAndUpdate as any).mockResolvedValueOnce(updatedReview);
+    (Review.findOneAndUpdate as unknown as { mockResolvedValueOnce: Function }).mockResolvedValueOnce(updatedReview);
 
     const updated = await reviews.voteReview(validUserId, validReviewId1, 1) as { likes: number } | null;
     expect(updated?.likes).toBe(3);
   });
 
   it("voteReview aumenta dislikes correctamente", async () => {
-    (Vote.findOne as any).mockResolvedValueOnce(null);
-    (Review.findByIdAndUpdate as any).mockResolvedValueOnce({});
-    (Review.findById as any).mockReturnValueOnce({
+    (Vote.findOne as unknown as { mockResolvedValueOnce: Function }).mockResolvedValueOnce(null);
+    (Review.findByIdAndUpdate as unknown as { mockResolvedValueOnce: Function }).mockResolvedValueOnce({});
+    (Review.findById as unknown as { mockReturnValueOnce: Function }).mockReturnValueOnce({
       lean: vi.fn().mockResolvedValueOnce({ ...mockReviews[0], dislikes: 1 })
     });
     const updatedReview = { ...mockReviews[0], dislikes: 1 };
-    (Review.findOneAndUpdate as any).mockResolvedValueOnce(updatedReview);
+    (Review.findOneAndUpdate as unknown as { mockResolvedValueOnce: Function }).mockResolvedValueOnce(updatedReview);
 
     const updated = await reviews.voteReview(validUserId, validReviewId1, -1) as { dislikes: number } | null;
     expect(updated?.dislikes).toBe(1);
   });
 
   it("voteReview devuelve null si no encuentra reseña", async () => {
-    (Vote.findOne as any).mockResolvedValueOnce(null);
-    (Review.findByIdAndUpdate as any).mockResolvedValueOnce({});
-    (Review.findById as any).mockReturnValueOnce({
+    (Vote.findOne as unknown as { mockResolvedValueOnce: Function }).mockResolvedValueOnce(null);
+    (Review.findByIdAndUpdate as unknown as { mockResolvedValueOnce: Function }).mockResolvedValueOnce({});
+    (Review.findById as unknown as { mockReturnValueOnce: Function }).mockReturnValueOnce({
       lean: vi.fn().mockResolvedValueOnce(null)
     });
-    (Review.findOneAndUpdate as any).mockResolvedValueOnce(null);
+    (Review.findOneAndUpdate as unknown as { mockResolvedValueOnce: Function }).mockResolvedValueOnce(null);
 
     const result = await reviews.voteReview(validUserId, validReviewId1, 1);
     expect(result).toBeNull();
   });
 
   it("voteReview acumula likes en llamadas sucesivas", async () => {
-    (Vote.findOne as any).mockResolvedValue(null);
-    (Review.findByIdAndUpdate as any).mockResolvedValue({});
-    (Review.findById as any)
+    (Vote.findOne as unknown as { mockResolvedValue: Function }).mockResolvedValue(null);
+    (Review.findByIdAndUpdate as unknown as { mockResolvedValue: Function }).mockResolvedValue({});
+    (Review.findById as unknown as { mockReturnValueOnce: Function })
       .mockReturnValueOnce({ lean: vi.fn().mockResolvedValueOnce({ ...mockReviews[0], likes: 3 }) })
       .mockReturnValueOnce({ lean: vi.fn().mockResolvedValueOnce({ ...mockReviews[0], likes: 4 }) });
     const updatedReview1 = { ...mockReviews[0], likes: 3 };
     const updatedReview2 = { ...mockReviews[0], likes: 4 };
-    (Review.findOneAndUpdate as any)
+    (Review.findOneAndUpdate as unknown as { mockResolvedValueOnce: Function })
       .mockResolvedValueOnce(updatedReview1)
       .mockResolvedValueOnce(updatedReview2);
 

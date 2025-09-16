@@ -16,8 +16,6 @@ import { GET as ReviewsGET, POST as ReviewsPOST } from "../app/api/reviews/[book
 import { POST as VotePOST } from "../app/api/reviews/[bookId]/vote/route";
 import { NextRequest } from "next/server";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import type { MockInstance } from "vitest";
-import fs from "fs/promises";
 
 
 
@@ -70,7 +68,7 @@ describe("reviews API routes", () => {
   let Review: any;
   beforeEach(async () => {
     vi.clearAllMocks();
-    Review = (await import("../lib/models/review")).Review;
+    Review = (await import("../lib/models/review")).Review as any;
   });
 
   it("GET ordena reviews por likes y luego fecha desc", async () => {
