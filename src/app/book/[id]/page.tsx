@@ -14,27 +14,32 @@ async function getBook(id: string): Promise<GoogleBook | null> {
   return res.json();
 }
 
-export default async function Page({ params }: { params: { id: string } }) {
+// 👇 así en lugar de definir una interfaz externa
+export default async function BookPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const { id } = params;
   const book = await getBook(id);
+
   if (!book) {
     return <div className="py-6">Libro no encontrado.</div>;
   }
+
   const info = book.volumeInfo;
   const cover = info.imageLinks?.thumbnail;
 
   // Favoritos
   const user = await getUserFromRequestCookie();
-  let userId = '';
+  let userId = "";
   let favorite = false;
   if (user) {
     userId = Array.isArray(user) ? String(user[0]?._id) : String(user._id);
-    if (userId && userId !== 'undefined') {
+    if (userId && userId !== "undefined") {
       favorite = await isFavorite(userId, book.id);
     }
   }
-
-
 
   return (
     <div className="space-y-6">
@@ -69,11 +74,15 @@ export default async function Page({ params }: { params: { id: string } }) {
           </div>
           {/* Botón favoritos */}
           {user && (
-            <FavoriteButton bookId={book.id} initialFavorite={favorite} bookTitle={info.title} />
+            <FavoriteButton
+              bookId={book.id}
+              initialFavorite={favorite}
+              bookTitle={info.title}
+            />
           )}
         </div>
       </div>
-  <Reviews bookId={book.id} bookTitle={info.title} />
+      <Reviews bookId={book.id} bookTitle={info.title} />
     </div>
   );
 }
