@@ -15,7 +15,7 @@ import { POST as LogoutRoute } from '../app/api/auth/logout/route';
 vi.mock('bcrypt', () => {
   const actual = {
     hash: vi.fn().mockResolvedValue('hashed_password'),
-   compare: vi.fn().mockImplementation(async (password, hash) => {
+   compare: vi.fn().mockImplementation(async (password) => {
     return password === '123456';
     }),
   };
